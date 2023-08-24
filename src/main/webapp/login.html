@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script src="js/axios-0.18.0.js"></script>
+
+<div id="app">
+    <el-form ref="user" :model="user" label-width="500px">
+        <el-form-item label="账号">
+            <el-col :span="8">
+            <el-input v-model="user.username"></el-input>
+            </el-col>
+        </el-form-item>
+        <el-form-item label="密码">
+            <el-col :span="8">
+            <el-input v-model="user.password" type="password"></el-input>
+            </el-col>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="login">登录</el-button>
+            <el-button @click="registe">没有账号？点我注册</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#app",
+        data(){
+            return{
+                user: {
+                    name:'',
+                    password:''
+                }
+            }
+        },
+
+        methods:{
+            login(){
+                var _this = this;
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/brand-case/loginServlet",
+                    data: _this.user
+                }).then(function (resp){
+                    if (resp.data == "success"){
+                        location.href="http://localhost:8080/brand-case/brand.html"
+                    }else {
+                        alert("重新输入用户名和密码!")
+                        location.href="http://localhost:8080/brand-case/login.html"
+                    }
+
+                })
+            },
+            registe(){
+                location.href="http://localhost:8080/brand-case/registe.html"
+            }
+        }
+    })
+</script>
+
+
+</body>
+</html>
